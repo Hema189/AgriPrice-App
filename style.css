@@ -1,0 +1,237 @@
+:root {
+    --primary-green: #2e7d32;
+    --light-green: #e8f5e9;
+    --accent-yellow: #fbc02d;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f0f4f0;
+    display: flex;
+    justify-content: center;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.screen {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    animation: fadeIn 0.3s ease;
+}
+
+.screen.active { display: flex; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Welcome Screen */
+.logo-area {
+    height: 50%;
+    position: relative;
+    color: white;
+    text-align: center;
+}
+
+.bg-img { width: 100%; height: 100%; object-fit: cover; }
+
+.logo-text {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    background: rgba(0,0,0,0.4);
+    padding: 10px 0;
+}
+
+.language-selection {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    padding: 15px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    border: none;
+    background: var(--primary-green);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Header */
+header {
+    background: var(--primary-green);
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.back-btn { background: none; padding: 5px; }
+
+/* Grid Layouts */
+.crop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.crop-card {
+    background: var(--light-green);
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #c8e6c9;
+}
+
+.crop-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; }
+
+/* Dashboard Buttons */
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+    padding: 25px;
+}
+
+.yellow { background: #fbc02d; color: #333; }
+.orange { background: #fb8c00; }
+.blue { background: #1e88e5; }
+
+/* Voice Mic */
+.voice-assistant {
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    background: var(--primary-green);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    border: 4px solid white;
+}
+
+/* Form Styles */
+.calc-form { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+input { padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; }
+.result-box { margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; text-align: center; font-size: 1.2rem; font-weight: bold; color: #2e7d32; }
+
+/* Weather */
+.weather-card { text-align: center; padding: 50px 20px; }
+.weather-card i { font-size: 5rem; color: #fbc02d; margin-bottom: 20px; }
+#realMap{
+height:400px;
+width:90%;
+margin:20px auto;
+border-radius:20px;
+}
+/* --- Real Map Styles (Leaflet) --- */
+
+#map {
+    height: 400px; /* కనీసం 400px ఉండాలి */
+    width: 100%;
+    border: 2px solid #2e7d32;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+/* మ్యాప్ లోపల వచ్చే చిన్న సెలెక్ట్ బటన్ స్టైల్ */
+.leaflet-popup-content-wrapper {
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.leaflet-popup-content button {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.leaflet-popup-content button:hover {
+    background: #1b5e20;
+}
+.map-wrapper {
+    height: 450px;
+    margin: 20px;
+    background: #e3f2fd; /* మ్యాప్ లేకపోయినా బ్యాక్‌గ్రౌండ్ కలర్ */
+    border: 3px solid #2e7d32;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-background {
+    width: 100%;
+    height: 100%;
+    /* ఇక్కడ మీరు ఏదైనా మ్యాప్ ఇమేజ్ లింక్ ఇచ్చుకోవచ్చు */
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Andhra_Pradesh_locator_map.svg/512px-Andhra_Pradesh_locator_map.svg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.map-marker {
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.map-marker:hover { transform: scale(1.2); }
+
+.map-marker i { color: #d32f2f; font-size: 2.5rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+
+.price-bubble {
+    background: white;
+    color: black;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: inline-block;
+}
+
+.map-marker p { margin: 0; font-weight: bold; color: #333; font-size: 0.9rem; }
+
+/* మార్కర్ల పొజిషన్స్ */
+.m1 { top: 75%; left: 45%; } /* Madanapalle */
+.m2 { top: 25%; left: 55%; } /* Warangal */
+.m3 { top: 50%; left: 35%; } /* Kurnool */

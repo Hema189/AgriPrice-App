@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriPrice - Smart Farmer App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div id="app-container">
+        <section id="screen-welcome" class="screen active">
+            <div class="logo-area">
+                <img src="images/farm-bg.jpg" alt="Farm" class="bg-img">
+                <div class="logo-text">
+                    <h1>AgriPrice</h1>
+                    <p>Smart Market Price Comparison</p>
+                </div>
+            </div>
+            <div class="language-selection">
+                <h3>Please select your language</h3>
+                <button onclick="selectLanguage('te')">తెలుగు</button>
+                <button onclick="selectLanguage('hi')">हिन्दी</button>
+                <button onclick="selectLanguage('en')">English</button>
+            </div>
+        </section>
+
+        <section id="screen-crops" class="screen">
+            <header>
+                <button class="back-btn" onclick="showScreen('screen-welcome')"><i class="fas fa-arrow-left"></i></button>
+                <h2>Select Your Crop</h2>
+            </header>
+            <div class="crop-grid">
+                <div class="crop-card" onclick="selectCrop('Paddy')">
+                    <img src="images/paddy.jpg" alt="Paddy">
+                    <p>Paddy (వరి)</p>
+                </div>
+                <div class="crop-card" onclick="selectCrop('Tomato')">
+                    <img src="images/tomato.jpg" alt="Tomato">
+                    <p>Tomato (టమాటా)</p>
+                </div>
+                <div class="crop-card" onclick="selectCrop('Cotton')">
+                    <img src="images/cotton.jpg" alt="Cotton">
+                    <p>Cotton (పత్తి)</p>
+                </div>
+                <div class="crop-card" onclick="selectCrop('Maize')">
+                    <img src="images/maize.jpg" alt="Maize">
+                    <p>Maize (మొక్కజొన్న)</p>
+                </div>
+                <div class="crop-card" onclick="selectCrop('Mango')">
+                    <img src="images/mango.jpg" alt="Mango">
+                    <p>Mango (మామిడి)</p>
+                </div>
+                <div class="crop-card" onclick="selectCrop('Moong')">
+                    <img src="images/moong-dal.jpg" alt="Moong">
+                    <p>Moong Dal(పెసరపప్పు)</p>
+                </div>
+                <div class="crop-card" onclick="selectCrop('Sunflower-seed')">
+                    <img src="images/sunflower-seed.jpg" alt="Sunflower Seed">
+                    <p>Sunflower Seed (సన్ఫ్లోర్ బీజాలు)</p>
+                </div>
+            </div>
+        </section>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<section id="screen-map" class="screen">
+    <header>
+        <button class="back-btn" onclick="showScreen('screen-crops')"><i class="fas fa-arrow-left"></i></button>
+        <h2>Select Area (ప్రాంతాన్ని ఎంచుకోండి)</h2>
+    </header>
+    <div class="map-wrapper">
+        <div class="map-background">
+            <div class="map-marker m1" onclick="selectArea('Madanapalle', 3200, 500)">
+                <span class="price-bubble">₹3200</span>
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Madanapalle</p>
+            </div>
+            <div class="map-marker m2" onclick="selectArea('Warangal', 3100, 800)">
+                <span class="price-bubble">₹3100</span>
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Warangal</p>
+            </div>
+            <div class="map-marker m3" onclick="selectArea('Kurnool', 3050, 600)">
+                <span class="price-bubble">₹3050</span>
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Kurnool</p>
+            </div>
+        </div>
+    </div>
+    <p style="text-align:center; padding:10px;">మార్కర్‌ని క్లిక్ చేయండి</p>
+</section>
+
+        <section id="screen-dashboard" class="screen">
+            <header>
+                <button class="back-btn" onclick="showScreen('screen-crops')"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="selected-crop-name">Tomato Dashboard</h2>
+            </header>
+            <div class="menu-grid">
+                <button class="menu-item yellow" onclick="showScreen('screen-prices')">
+                    <i class="fas fa-chart-line"></i> Price Comparison
+                </button>
+                <button class="menu-item green" onclick="showScreen('screen-calculator')">
+                    <i class="fas fa-calculator"></i> Profit Calculator
+                </button>
+                <button class="menu-item orange" onclick="showScreen('screen-transport')">
+    <i class="fas fa-truck"></i> Transport Costs
+</button>
+                <button class="menu-item blue" onclick="showScreen('screen-weather')">
+                    <i class="fas fa-cloud-sun"></i> Weather Info
+                </button>
+                <button class="menu-item blue" onclick="showScreen('screen-graph')">
+    <i class="fas fa-chart-line"></i> Weekly Graph
+</button>
+                
+            </div>
+            
+        </section>
+
+        <section id="screen-prices" class="screen">
+            <header>
+                <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fas fa-arrow-left"></i></button>
+                <h2>Market Prices</h2>
+            </header>
+            <div class="price-list">
+                <div class="market-card best">
+                    <span>Madanapalle Main Mandi</span>
+                    <strong>₹ 3,200 <i class="fas fa-star"></i></strong>
+                </div>
+                <div class="market-card">
+                    <span>Angallu Market</span>
+                    <strong>₹ 3,100</strong>
+                </div>
+                <div class="market-card">
+                    <span>Warangal Market</span>
+                    <strong>₹ 3,150</strong>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-calculator" class="screen">
+            <header>
+                <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fas fa-arrow-left"></i></button>
+                <h2>Profit Calculator</h2>
+            </header>
+            <div class="calc-form">
+                <label>Crop Quantity (Quintals)</label>
+                <input type="number" id="qty" placeholder="e.g. 50">
+                <label>Investment (₹)</label>
+                <input type="number" id="invest" placeholder="e.g. 20000">
+                <label>Transport Cost (₹)</label>
+                <input type="number" id="trans" placeholder="e.g. 5000">
+                <button class="calc-btn" onclick="calculateProfit()">Calculate Profit</button>
+                <div id="calc-result" class="result-box"></div>
+            </div>
+        </section>
+        <section id="screen-transport" class="screen">
+<header>
+<button class="back-btn" onclick="showScreen('screen-dashboard')">
+<i class="fas fa-arrow-left"></i>
+</button>
+<h2>Transport Cost Estimation</h2>
+</header>
+
+<div style="padding:20px">
+
+<label>Distance (KM)<br></label>
+<input type="number" id="distance" placeholder="e.g. 120">
+
+<label><br>Cost per KM <br>(₹)</label>
+<input type="number" id="costkm" placeholder="e.g. 20">
+
+<button onclick="calculateTransport()">Calculate Cost</button>
+
+<div id="transport-result" class="result-box"></div>
+
+</div>
+</section>
+
+        <section id="screen-weather" class="screen">
+            <header>
+                <button class="back-btn" onclick="showScreen('screen-dashboard')"><i class="fas fa-arrow-left"></i></button>
+                <h2>Weather Today</h2>
+            </header>
+            <div class="weather-card">
+                <i class="fas fa-sun"></i>
+                <h1>31°C</h1>
+                <p>Rainfall: 12mm</p>
+                <p>Humidity: 75%</p>
+            </div>
+        </section>
+        <section id="screen-graph" class="screen">
+    <header>
+        <button class="back-btn" onclick="showScreen('screen-dashboard')">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>Weekly Price Graph</h2>
+    </header>
+
+    <div style="padding:20px">
+        <canvas id="priceChart"></canvas>
+    </div>
+</section>
+
+        <div class="voice-assistant" onclick="startVoiceRecognition()">
+            <i class="fas fa-microphone"></i>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+</html>
