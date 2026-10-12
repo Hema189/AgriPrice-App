@@ -34,18 +34,27 @@ const marketData = [
 ];
 
 // 🔥 SCREEN NAVIGATION
+
 function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(s =>
+        s.classList.remove('active')
+    );
+
     document.getElementById(screenId).classList.add('active');
 
-    if(screenId === "screen-prices"){
-        speak("Showing market prices");
+    if (screenId === 'screen-prices') {
+        speak('Showing market prices');
     }
 
-    if(screenId === "screen-weather"){
-        speak("Showing weather");
+    if (screenId === 'screen-weather') {
+        speak('Showing weather');
+    }
+
+    if (screenId === 'screen-graph') {
+        loadChart();
     }
 }
+
 
 // 🔥 LANGUAGE SELECT
 function selectLanguage(lang) {
@@ -208,4 +217,157 @@ function startVoiceRecognition() {
     };
 
     recognition.start();
+}
+
+
+function calculateProfit() {
+    const quantity = Number(document.getElementById('qty').value);
+    const investment = Number(document.getElementById('invest').value);
+    const transport = Number(document.getElementById('trans').value);
+
+    if (
+        document.getElementById('qty').value.trim() === '' ||
+        document.getElementById('invest').value.trim() === '' ||
+        document.getElementById('trans').value.trim() === '' ||
+        !Number.isFinite(quantity) ||
+        !Number.isFinite(investment) ||
+        !Number.isFinite(transport) ||
+        quantity <= 0 ||
+        investment < 0 ||
+        transport < 0
+    ) {
+        alert('Please enter a valid quantity, investment, and transport cost.');
+        return;
+    }
+
+    // Sample selling price per quintal
+    const marketPrice = 3200;
+
+    const totalRevenue = quantity * marketPrice;
+    const totalCost = investment + transport;
+    const profit = totalRevenue - totalCost;
+
+    const result = document.getElementById('calc-result');
+
+    result.innerHTML =
+        '<p><strong>Market Price:</strong> ₹' + marketPrice.toLocaleString('en-IN') + ' per quintal</p>' +
+        '<p><strong>Total Revenue:</strong> ₹' + totalRevenue.toLocaleString('en-IN') + '</p>' +
+        '<p><strong>Investment:</strong> ₹' + investment.toLocaleString('en-IN') + '</p>' +
+        '<p><strong>Transport Cost:</strong> ₹' + transport.toLocaleString('en-IN') + '</p>' +
+        '<p><strong>Total Cost:</strong> ₹' + totalCost.toLocaleString('en-IN') + '</p>' +
+        '<p><strong>Estimated ' + (profit >= 0 ? 'Profit' : 'Loss') +
+        ':</strong> ₹' + Math.abs(profit).toLocaleString('en-IN') + '</p>';
+
+    speak(
+        currentLang === 'te'
+            ? 'అంచనా ' + (profit >= 0 ? 'లాభం ' : 'నష్టం ') + Math.abs(profit) + ' రూపాయలు'
+            : currentLang === 'hi'
+                ? 'अनुमानित ' + (profit >= 0 ? 'लाभ ' : 'नुकसान ') + Math.abs(profit) + ' रुपये'
+                : 'Estimated ' + (profit >= 0 ? 'profit ' : 'loss ') + Math.abs(profit) + ' rupees'
+    );
+}
+
+function calculateTransport() {
+    const distanceInput = document.getElementById('distance');
+    const costPerKmInput = document.getElementById('costkm');
+    const result = document.getElementById('transport-result');
+
+    const distance = Number(distanceInput.value);
+    const costPerKm = Number(costPerKmInput.value);
+
+    if (
+        distanceInput.value.trim() === '' ||
+        costPerKmInput.value.trim() === '' ||
+        !Number.isFinite(distance) ||
+        !Number.isFinite(costPerKm) ||
+        distance <= 0 ||
+        costPerKm < 0
+    ) {
+        alert('Please enter a valid distance and cost per kilometre.');
+        return;
+    }
+
+    const totalCost = distance * costPerKm;
+
+    result.innerHTML =
+        '<p><strong>Distance:</strong> ' + distance + ' km</p>' +
+        '<p><strong>Cost per KM:</strong> ₹' +
+        costPerKm.toLocaleString('en-IN') + '</p>' +
+        '<p><strong>Total Transport Cost:</strong> ₹' +
+        totalCost.toLocaleString('en-IN') + '</p>';
+
+    speak(
+        currentLang === 'te'
+            ? 'రవాణా ఖర్చు ' + totalCost + ' రూపాయలు'
+            : currentLang === 'hi'
+                ? 'परिवहन लागत ' + totalCost + ' रुपये'
+                : 'Total transport cost is ' + totalCost + ' rupees'
+    );
+}
+
+let weeklyChart = null;
+
+function loadChart() {
+    const canvas = document.getElementById('priceChart');
+
+    if (!canvas) {
+        console.error('Weekly graph canvas was not found.');
+        return;
+    }
+
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js is not loaded.');
+        return;
+    }
+
+    if (weeklyChart) {
+        weeklyChart.destroy();
+    }
+
+    weeklyChart = new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                     'Friday', 'Saturday', 'Sunday'],
+            datasets: [{
+                label: 'Market Price (₹ per quintal)',
+                data: [2900, 3000, 2950, 3100, 3050, 3200, 3200],
+                borderColor: '#2e7d32',
+                backgroundColor: 'rgba(46, 125, 50, 0.15)',
+                borderWidth: 3,
+                pointRadius: 5,
+                pointBackgroundColor: '#2e7d32',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true
+                },
+                title: {
+                    display: true,
+                    text: 'Weekly Market Price Trends'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Price (₹ per quintal)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Day'
+                    }
+                }
+            }
+        }
+    });
 }
